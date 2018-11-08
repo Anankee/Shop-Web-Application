@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<button type="button" class="btn btn-success btn-sm" onclick="openProductModal()">Create New</button>
+
+<div id="product-modal">
+    @Html.Action("Create")
+</div>
+@Html.Action("List")
+
+<script type="text/javascript">
+    function openProductModal() {
+        $('#add-product-modal').modal('show')
+    }
+</script>
