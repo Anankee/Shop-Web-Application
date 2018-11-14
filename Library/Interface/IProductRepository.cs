@@ -10,9 +10,10 @@ namespace Library.Interface
     public interface IProductRepository
     {
         void Add(Product product);
-        IEnumerable<Product> GetProducts();
+        Product GetById(int id);
+        IEnumerable<Product> GetAll();
         void Update(Product product);
-        void Remove(int id);
+        Product Delete(int id);
         
     }
 }

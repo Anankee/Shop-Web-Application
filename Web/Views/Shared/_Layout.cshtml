@@ -13,8 +13,12 @@
     <div class="container">
         @RenderBody()
     </div>
+    <div id="loader-holder" hidden>
+        <div id="loader"></div>
+    </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/site.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -50,6 +50,15 @@
   <ItemGroup>
     <Compile Include="DAL\ShopContext.cs" />
     <Compile Include="Interface\IProductRepository.cs" />
+    <Compile Include="Migrations\201811082025496_InitialCreate.cs" />
+    <Compile Include="Migrations\201811082025496_InitialCreate.Designer.cs">
+      <DependentUpon>201811082025496_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811142002115_AddDescriptionToProductModel.cs" />
+    <Compile Include="Migrations\201811142002115_AddDescriptionToProductModel.Designer.cs">
+      <DependentUpon>201811142002115_AddDescriptionToProductModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\ProductRepository.cs" />
@@ -57,6 +66,14 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201811082025496_InitialCreate.resx">
+      <DependentUpon>201811082025496_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811142002115_AddDescriptionToProductModel.resx">
+      <DependentUpon>201811142002115_AddDescriptionToProductModel.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

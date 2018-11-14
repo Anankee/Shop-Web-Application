@@ -11,8 +11,16 @@ namespace Library.Models
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
+        public string Description { get; set; }
+        [Required]
+        [Range(0.01, int.MaxValue)]
+        [RegularExpression(@"^\d*,?[0-9]{0,2}$", ErrorMessage = "Please enter correct price number")]
         public double Price { get; set; }
+        [Required]
+        [Range(0, int.MaxValue)]
         public int Amount { get; set; }
         public string ImageUrl { get; set; }
     }

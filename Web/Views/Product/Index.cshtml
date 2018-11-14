@@ -1,15 +1,85 @@
 ﻿@{
     ViewBag.Title = "Index";
+    var tempMessage = TempData["message"];
 }
-<button type="button" class="btn btn-success btn-sm" onclick="openProductModal()">Create New</button>
 
+@if(tempMessage != null)
+{
+    <div class="alert alert-success">@TempData</div>
+}
+
+<button type="button" class="btn btn-success btn-sm" onclick="openProductModal()">Create New</button>
 <div id="product-modal">
-    @Html.Action("Create")
 </div>
-@Html.Action("List")
+<div id="product-list">
+    @Html.Action("List")
+</div>
 
 <script type="text/javascript">
-    function openProductModal() {
+    function openProductModal(productId) {
+        LoaderOn();
+        $.ajax({
+            url: "/Product/Edit",
+            type: "GET",
+            data: { id: productId },
+            async: false,
+            success: function (result) {
+                $('#product-modal').html(result);
+            },
+            error: function (error) {
+                console.log(error.responseText);
+                alert('error');
+            }
+        })
+        LoaderOff();
         $('#add-product-modal').modal('show')
+    }
+
+    function SubmitProduct() {
+        LoaderOn();
+        var formData = $('#product-form').serialize();
+        $.ajax({
+            url: "/Product/Edit",
+            type: "POST",
+            data: formData,
+            async: false,
+            success: function (result) {
+                if (Array.isArray(result)) {
+                    console.log(result);
+                    $('#errors-holder').html(result);
+                }
+                else {
+                    $('#product-list').html(result);
+                    $('#add-product-modal').modal('toggle');
+                }                
+            },
+            error: function (xhr) {
+                console.log(xhr.Error);
+                alert('error');
+                
+            }
+        })
+        LoaderOff();
+    }
+
+    function DeleteProduct(productId) {
+        var res = confirm("Want to delete?")
+        if (res) {
+            LoaderOn();
+            $.ajax({
+                url: "/Product/Delete",
+                type: "POST",
+                async: false,
+                data: { id: productId },
+                success: function (result) {
+                    $('#product-list').html(result);
+                },
+                error: function (error) {
+                    alert(error.responseText);
+                    alert("Error");
+                }
+            })
+            LoaderOff();
+        }        
     }
 </script>

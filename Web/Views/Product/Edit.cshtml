@@ -1,0 +1,52 @@
+﻿@model Library.Models.Product
+
+@{
+    string title = Model.Id == 0 ? "Add new product" : string.Format("Edit product {0}", Model.Name);
+    ViewBag.Title = "Add";
+}
+
+@using (Html.BeginForm("Edit", "Product", FormMethod.Post, new { id="product-form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="modal fade" id="add-product-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">@title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @Html.HiddenFor(e => e.Id)
+
+                    @foreach (var property in ViewData.ModelMetadata.Properties)
+                    {
+                        if(property.PropertyName != "Id")
+                        {
+                            <div class="form-group">
+                                @Html.Label(property.PropertyName, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @if (property.PropertyName == "Description")
+                                    {
+                                        @Html.TextArea(property.PropertyName, new { @class = "form-control form-control-sm", rows = "4" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBox(property.PropertyName, null, new { @class = "form-control form-control-sm" } )
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                    <div id="errors-holder"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" onclick="SubmitProduct()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

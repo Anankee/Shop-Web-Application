@@ -20,14 +20,20 @@ namespace Library.Repository
             }     
         }
 
-        public IEnumerable<Product> GetProducts()
+        public Product GetById(int id)
+        {
+            using (var context = new ShopContext())
+                return context.Products.Find(id);
+        }
+
+        public IEnumerable<Product> GetAll()
         {
             using (var context = new ShopContext())
                 return context.Products
                     .ToList();
         }
 
-        public void Remove(int id)
+        public Product Delete(int id)
         {
             using(var context = new ShopContext())
             {
@@ -36,9 +42,10 @@ namespace Library.Repository
                 {
                     context.Products.Remove(product);
                     context.SaveChanges();
-                }
-                    
+                    return product;
+                }                    
             }
+            return null;
         }
 
         public void Update(Product product)

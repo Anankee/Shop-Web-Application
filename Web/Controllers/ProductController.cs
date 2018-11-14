@@ -5,9 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Web.Infrastrucure;
 
 namespace Web.Controllers
 {
+    [ClientErrorHandler]
     public class ProductController : Controller
     {
         private IProductRepository productRepository;
@@ -26,26 +28,44 @@ namespace Web.Controllers
         [HttpGet]
         public PartialViewResult List()
         {
-            return PartialView(productRepository.GetProducts());
+            return PartialView(productRepository.GetAll());
         }
+
 
         [HttpGet]
-        public PartialViewResult Create()
+        public PartialViewResult Edit(int? id)
         {
-            return PartialView(new Product());
+            if (id == null)
+                return PartialView(new Product());
+            return PartialView(productRepository.GetById((int)id));
         }
 
         [HttpPost]
-        public bool Create(Product product)
+        public ActionResult Edit(Product product)
         {
-            productRepository.Add(product);
-            return true;
+            if (ModelState.IsValid)
+            {
+                if (product.Id > 0)
+                {
+                    productRepository.Update(product);
+                    TempData["message"] = string.Format("{0} has been saved.", product.Name);
+                }
+                else
+                {
+                    productRepository.Add(product);
+                    TempData["message"] = string.Format("{0} has been added.", product.Name);
+                }                
+                
+                return RedirectToAction("List");
+            }
+            return Json(ModelState.GetErrorMessages());
         }
 
-        [HttpPost]
-        public void Delete(int id)
-        {
-            productRepository.Remove(id);
+        public RedirectToRouteResult Delete(int id)
+        {            
+            var product = productRepository.Delete(id);
+            TempData["message"] = string.Format("{0} has been deleted.", product.Name);
+            return RedirectToAction("List");
         }
     }
 }

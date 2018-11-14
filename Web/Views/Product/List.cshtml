@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<Library.Models.Product>
 
-<table class="table table-bordered table-hover table-striped">
+<table class="table table-sm table-bordered table-hover table-striped">
     <tr class="thead-dark">
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
@@ -14,29 +17,33 @@
         <th>
             @Html.DisplayNameFor(model => model.ImageUrl)
         </th>
-        <th></th>
+        <th>
+            Options
+        </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Amount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ImageUrl)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+             <td>
+                 <img style="height: 50px;" src="@item.ImageUrl" alt="@item.Name image" />
+            </td>
+            <td>
+                <a class="btn btn-primary btn-sm text-white" onclick="openProductModal(@item.Id)">Edit</a>
+                <a class="btn btn-danger btn-sm text-white" onclick="DeleteProduct(@item.Id)">Delete</a>
+            </td>
+        </tr>
+    }
 </table>
